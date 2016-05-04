@@ -51,7 +51,7 @@ char const * menu[3] = {">Push me!", ">Or me!", ">Off screen!"};
 LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
 
 int pushed = 0;
-int row = 0;
+int row = 1;
 
 void setup() {
   // set up the LCD's number of columns and rows:
