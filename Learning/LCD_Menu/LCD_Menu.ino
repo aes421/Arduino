@@ -45,10 +45,7 @@ const int numRows = 3;
 const int numCols = 16;
 const int buttonPin = 13;
 
-char* menu[3] = {">Push me!", ">Or me!", ">Off screen!"};
-//const char* menu1 = ">Push me!";
-//const char* menu2 = ">Or me!";
-//const char* menu3 = ">Off screen!";
+char const * menu[3] = {">Push me!", ">Or me!", ">Off screen!"};
 
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
@@ -74,11 +71,15 @@ void loop() {
     if (row == numRows){
       row = 0;
       //move cursor 
-      scrollDown(row, row+1);
+      scrollDown(row, row+1, row);
     }
     else{
-      //move cursor
-      scrollDown(row, row+1);
+      if (row%2 != 0){
+        scrollDown(row-1, row, 1);
+      }
+      else{
+        scrollDown(row, row+1, 0);
+      }
     }
 
     row++;
@@ -87,8 +88,8 @@ void loop() {
   }  
 }
 
-void scrollDown(int top, int bottom){
-  Serial.println(top);
+void scrollDown(int top, int bottom, int current){
+
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.write(menu[top]);
@@ -96,7 +97,7 @@ void scrollDown(int top, int bottom){
   lcd.setCursor(0, 1);
   lcd.write(menu[bottom]);
   
-  lcd.setCursor(0,0);
+  lcd.setCursor(0,current);
   
   lcd.cursor();
 }
