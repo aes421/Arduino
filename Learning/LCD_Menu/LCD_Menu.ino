@@ -75,34 +75,29 @@ void loop() {
       row = 0;
       //move cursor 
       scrollDown(row, row+1);
-      row++;
     }
     else{
       //move cursor
       scrollDown(row, row+1);
-      row++;
     }
-    
-    //lcd.setCursor(0, row);
+
+    row++;
     //debounce
     delay(300);
   }  
 }
 
-void scrollDown(int current, int next){
-  Serial.println(current);
+void scrollDown(int top, int bottom){
+  Serial.println(top);
   lcd.clear();
   lcd.setCursor(0,0);
-  lcd.write(menu[current]);
+  lcd.write(menu[top]);
   
   lcd.setCursor(0, 1);
-  lcd.write(menu[next]);
-  if (current == 0){
-    lcd.setCursor(0,0);
-  }
-  else{
-    lcd.setCursor(0, 1);
-  }
+  lcd.write(menu[bottom]);
+  
+  lcd.setCursor(0,0);
+  
   lcd.cursor();
 }
 
