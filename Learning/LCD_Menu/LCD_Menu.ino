@@ -48,48 +48,40 @@ const int buttonPin = 13;
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
 
-int printed = 0;
+int pushed = 0;
+int row = 0;
 
 void setup() {
   // set up the LCD's number of columns and rows:
   pinMode(buttonPin, INPUT);
   lcd.begin(numCols, numRows);
   Serial.begin(9600);
+
+  lcd.write(">Push me!");
+  lcd.setCursor(0,1);
+  lcd.write(">Or me!");
+  lcd.setCursor(0,0);
+  lcd.cursor();
 }
 
 void loop() {
-  
   if (digitalRead(buttonPin) == LOW){
-    lcd.clear();
-    int thisLetter = 'a';
-    // loop from ASCII 'a' to ASCII 'z':
-    for (int row=0; row < numRows;  row++) {
-      for (int col=0; col < numCols;  col++) {
-        lcd.setCursor(col, row);
-        // print the letter:
-        lcd.write(thisLetter);
-        delay(200);
-        if (thisLetter == 'z'){
-          row = numRows;
-          col = numCols;
-        }
-        else{
-          thisLetter++;
-        }
-      }
+    if (row == numRows - 1){
+      row = 0;
     }
+    else{
+      row++;
+    }
+    //move cursor 
+    lcd.setCursor(0, row);
+    //debounce
     delay(300);
-    lcd.clear();
-    printed = 0;
-}
-  if (printed == 0){
-    lcd.write(">Push me!");
-    lcd.setCursor(0,1);
-    lcd.write(">Or me!");
-    lcd.setCursor(0,0);
-    lcd.cursor();
-    printed = 1;
   }
+
+  
+
+  
+    
 }
 
 
