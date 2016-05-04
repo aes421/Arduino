@@ -41,9 +41,14 @@
 
 // these constants won't change.  But you can change the size of
 // your LCD using them:
-const int numRows = 2;
+const int numRows = 3;
 const int numCols = 16;
 const int buttonPin = 13;
+
+char* menu[3] = {">Push me!", ">Or me!", ">Off screen!"};
+//const char* menu1 = ">Push me!";
+//const char* menu2 = ">Or me!";
+//const char* menu3 = ">Off screen!";
 
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
@@ -57,31 +62,48 @@ void setup() {
   lcd.begin(numCols, numRows);
   Serial.begin(9600);
 
-  lcd.write(">Push me!");
+  lcd.write(menu[0]);
   lcd.setCursor(0,1);
-  lcd.write(">Or me!");
+  lcd.write(menu[1]);
   lcd.setCursor(0,0);
   lcd.cursor();
 }
 
 void loop() {
   if (digitalRead(buttonPin) == LOW){
-    if (row == numRows - 1){
+    if (row == numRows){
       row = 0;
-    }
-    else{
+      //move cursor 
+      scrollDown(row, row+1);
       row++;
     }
-    //move cursor 
-    lcd.setCursor(0, row);
+    else{
+      //move cursor
+      scrollDown(row, row+1);
+      row++;
+    }
+    
+    //lcd.setCursor(0, row);
     //debounce
     delay(300);
+  }  
+}
+
+void scrollDown(int current, int next){
+  Serial.println(current);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.write(menu[current]);
+  
+  lcd.setCursor(0, 1);
+  lcd.write(menu[next]);
+  if (current == 0){
+    lcd.setCursor(0,0);
   }
-
-  
-
-  
-    
+  else{
+    lcd.setCursor(0, 1);
+  }
+  lcd.cursor();
 }
 
 
